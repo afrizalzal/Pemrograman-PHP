@@ -1,0 +1,135 @@
+<?php
+//array scalar (1 dimensi)
+    $m1  = ['Nama'=>'Al Qosam','NIM'=>'20194701','Nilai'=>85];
+    $m2  = ['Nama'=>'Faishal','NIM'=>'20194702','Nilai'=>70];
+    $m3  = ['Nama'=>'Zulmi','NIM'=>'20194703','Nilai'=>87];
+    $m4  = ['Nama'=>'Virgi','NIM'=>'20194704','Nilai'=>80];
+    $m5  = ['Nama'=>'Nadzri','NIM'=>'20194705','Nilai'=>77];
+    $m6  = ['Nama'=>'Fikry','NIM'=>'20194706','Nilai'=>60];
+    $m7  = ['Nama'=>'Bhagas','NIM'=>'20194707','Nilai'=>74];
+    $m8  = ['Nama'=>'Zaki','NIM'=>'20194708','Nilai'=>95];
+    $m9  = ['Nama'=>'Bagus','NIM'=>'20194709','Nilai'=>90];
+    $m10 = ['Nama'=>'Gusti','NIM'=>'20194710','Nilai'=>45];
+
+//array judul
+    $ar_judul = ['No','NIM','Nama','Nilai','Keterangan','Grade','Predikat'];
+
+//array associative
+    $mahasiswa = [$m1,$m2,$m3,$m4,$m5,$m6,$m7,$m8,$m9,$m10];
+
+//agregate
+    $jml_nilai   = array_column($mahasiswa,'Nilai');
+    $total_nilai = array_sum($jml_nilai);
+    $max_nilai   = max($jml_nilai);
+    $min_nilai   = min($jml_nilai);
+    $jumlah_maha = count($mahasiswa);
+    $rata2       = $total_nilai / $jumlah_maha;
+
+//keterangan
+    $hasil = [
+    'Nilai Tertinggi'=>$max_nilai,
+    'Nilai Terendah'=>$min_nilai,
+    'Jumlah Siswa'=>$jumlah_maha,
+    'Rata2'=>$rata2
+    ];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> AFRIZAL | TUGAS 3 PHP </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+<style>
+    .card {
+    box-shadow: 19px 21px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: maroon;
+    }
+    .jumbotron {
+    padding: 30px;
+    background-color: maroon;
+    border-radius:40px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    }
+</style>
+
+<article class="card">
+    <div class="jumbotron">
+        <h3 class="text-center"> Daftar Mahasiswa </h3>
+    </div>
+    <table class="table table-striped" style="color:cornsilk;">
+        <thead>
+            <tr>
+                <?php
+                foreach($ar_judul as $jdl){
+                ?>
+                <th><?= $jdl ?></th>
+                <?php } ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $no = 1;
+            foreach($mahasiswa as $murid){
+            $nilai = $murid['Nilai'];
+            //rumus2
+
+            //ternary nilai lulus
+            $keterangan = ($nilai >= 60)?"Lulus":"Gagal";
+
+            //tentukan grade nilai
+            if($nilai >= 85 && $nilai <= 100) $grade = 'A';
+            else if($nilai >= 75 && $nilai < 85) $grade = 'B';
+            else if($nilai >= 60 && $nilai < 75) $grade = 'C';
+            else if($nilai >= 30 && $nilai < 60) $grade = 'D';
+            else if($nilai >= 0 && $nilai < 30) $grade = 'E';
+            else $grade = '';
+
+            //tentukan predikat
+            switch ($grade) {
+                case 'A': $predikat = 'Memuaskan'; break;
+                case 'B': $predikat = 'Bagus'; break;
+                case 'C': $predikat = 'Cukup'; break;
+                case 'D': $predikat = 'Kurang'; break;
+                case 'E': $predikat = 'Buruk'; break;
+                default: $predikat = '';
+            }
+            ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $murid['NIM'] ?></td>
+                <td><?= $murid['Nama'] ?></td>
+                <td><?= $murid['Nilai'] ?></td>
+                <td><?= $grade ?></td>
+                <td><?= $predikat ?></td>
+                <td><?= $keterangan ?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+        <tfoot>
+            <?php
+            foreach ($hasil as $h => $final) {
+            ?>
+            <tr>
+                <th colspan="7"><?= $h ?></th>
+                <th><?= $final ?></th>
+            </tr>
+            <?php } ?>
+        </tfoot>
+    </table>
+</article>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"> </script>
+
+</html>
